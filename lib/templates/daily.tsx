@@ -223,17 +223,17 @@ export const DailyEmail: React.FC<DailyEmailProps> = ({
           <Text style={styles.sectionTitle}>📍 Top Locations</Text>
           <table style={styles.locationTable}>
             <tbody>
-              {limitedCities.map((country, index) => (
+            {limitedCities.map((country, index) => (
                 <tr 
-                  key={`${country.x}-${index}`} 
-                  style={index < limitedCities.length - 1 ? styles.locationRow : {}}
+                    key={`${country.x || 'unknown'}-${index}`} 
+                    style={index < limitedCities.length - 1 ? styles.locationRow : {}}
                 >
-                  <td style={styles.locationName}>{country.x}</td>
-                  <td style={styles.locationValue}>
+                    <td style={styles.locationName}>{country.x || 'Unknown'}</td>
+                    <td style={styles.locationValue}>
                     <span style={styles.badge}>{country.y}</span>
-                  </td>
+                    </td>
                 </tr>
-              ))}
+                ))}
             </tbody>
           </table>
         </Container>
