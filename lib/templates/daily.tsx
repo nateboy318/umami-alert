@@ -173,7 +173,7 @@ export const DailyEmail: React.FC<DailyEmailProps> = ({
   
   console.log('Email Template Data:', {
     stats,
-    dueCount: stats.dueCount,
+    eventCount: stats.eventCount,
     fullData: data
   });
   
