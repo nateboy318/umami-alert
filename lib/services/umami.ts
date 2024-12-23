@@ -1,16 +1,5 @@
-// lib/services/umami.ts
 import { config } from '@/lib/config/env';
-import {
-    AnalyticsData,
-    UmamiMetrics,
-    UmamiStats
-} from '@/lib/types/umami';
-
-// Use UmamiMetrics and UmamiStats to satisfy eslint no-unused-vars
-const _unusedTypeCheck: {
-    metrics: UmamiMetrics;
-    stats: UmamiStats
-} = {} as any;
+import { AnalyticsData, UmamiMetrics, UmamiStats } from '@/lib/types/umami';
 
 export async function fetchUmamiData(startDate: Date, endDate: Date): Promise<AnalyticsData> {
     const apiKey = config.UMAMI_API_KEY;
