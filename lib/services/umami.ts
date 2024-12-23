@@ -46,8 +46,6 @@ export async function fetchUmamiData() {
         // For previous 24 hour period comparison
         const previous24Hours = new Date(past24Hours.getTime() - (24 * 60 * 60 * 1000));
 
-        // Get the start of the year in UTC for due date events
-        const startOfYear = new Date(now.getFullYear(), 0, 1);
 
         // Fetch current period data
         const [currentStats, pageviews, browsers, devices, cities, events] = await Promise.all([
