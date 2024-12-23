@@ -1,7 +1,7 @@
 import { config } from '@/lib/config/env';
 import { AnalyticsData, UmamiMetrics, UmamiStats } from '@/lib/types/umami';
 
-export async function fetchUmamiData(startDate: Date, endDate: Date): Promise<AnalyticsData> {
+export async function fetchUmamiData() {
     const apiKey = config.UMAMI_API_KEY;
     const websiteId = config.WEBSITE_ID;
 
@@ -39,12 +39,14 @@ export async function fetchUmamiData(startDate: Date, endDate: Date): Promise<An
     }
 
     try {
-        // Calculate time ranges
+        // Calculate exactly 24 hours from now
         const now = new Date();
-        const past24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-        const previous24Hours = new Date(past24Hours.getTime() - 24 * 60 * 60 * 1000);
+        const past24Hours = new Date(now.getTime() - (24 * 60 * 60 * 1000));
 
-        // Get the start of the year for due date events
+        // For previous 24 hour period comparison
+        const previous24Hours = new Date(past24Hours.getTime() - (24 * 60 * 60 * 1000));
+
+        // Get the start of the year in UTC for due date events
         const startOfYear = new Date(now.getFullYear(), 0, 1);
 
         // Fetch current period data
