@@ -2,7 +2,7 @@
 
 UmamiAlert is a Next.js application that automatically sends daily email reports containing your Umami Analytics data. It leverages Vercel's Cron Jobs and Resend for email delivery.
 
-![Umami Alert Dashboard](./public/static/fullshot.png)
+![Umami Alert Dashboard](./.github/images/fullshot.png)
 
 ## Features
 
@@ -13,7 +13,7 @@ UmamiAlert is a Next.js application that automatically sends daily email reports
 - 📧 Beautiful, responsive HTML emails using React Email
 
 ### Example Email Alert
-![Example Email Alert](./public/static/alert.png)
+![Example Email Alert](./.github/images/alert.png)
 
 ## Prerequisites
 
