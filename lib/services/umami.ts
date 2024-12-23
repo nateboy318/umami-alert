@@ -22,7 +22,7 @@ export async function fetchUmamiData(startDate: Date, endDate: Date): Promise<An
     const baseUrl = `${config.UMAMI_API_URL}/v1/websites/${websiteId}`;
 
     // Fetch all required data
-    const [stats, pageviews, browsers, devices, countries] = await Promise.all([
+    const [stats, pageviews, browsers, devices, cities] = await Promise.all([
         // Get stats
         fetch(`${baseUrl}/stats?startAt=${startDate.getTime()}&endAt=${endDate.getTime()}`, {
             headers
@@ -42,9 +42,8 @@ export async function fetchUmamiData(startDate: Date, endDate: Date): Promise<An
         fetch(`${baseUrl}/metrics?type=device&startAt=${startDate.getTime()}&endAt=${endDate.getTime()}&limit=5`, {
             headers
         }).then(res => res.json()) as Promise<UmamiMetrics[]>,
-
-        // Get countries
-        fetch(`${baseUrl}/metrics?type=city&startAt=${startDate.getTime()}&endAt=${endOfDay.getTime()}&limit=5`, {
+        // Get cities
+        fetch(`${baseUrl}/metrics?type=city&startAt=${startDate.getTime()}&endAt=${endDate.getTime()}&limit=5`, {
             headers
         }).then(res => res.json()) as Promise<UmamiMetrics[]>,
     ]);
@@ -62,6 +61,6 @@ export async function fetchUmamiData(startDate: Date, endDate: Date): Promise<An
         topReferrers: [],
         browsers,
         devices,
-        countries
+        cities
     };
 }

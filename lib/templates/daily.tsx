@@ -24,7 +24,7 @@ interface DailyEmailStats {
 interface DailyEmailData {
   stats: DailyEmailStats;
   topPages: TopLocation[];
-  countries: TopLocation[];
+  cities: TopLocation[];
 }
 
 interface DailyEmailProps {
@@ -169,7 +169,7 @@ export const DailyEmail: React.FC<DailyEmailProps> = ({
   mode = 'light' 
 }) => {
   const styles = createStyles(mode);
-  const { stats, countries } = data;
+  const { stats, cities } = data;
   
   console.log('Email Template Data:', {
     stats,
@@ -177,7 +177,7 @@ export const DailyEmail: React.FC<DailyEmailProps> = ({
     fullData: data
   });
   
-  const limitedCountries = countries.slice(0, 5);
+  const limitedCities = cities.slice(0, 5);
 
   return (
     <Html>
@@ -223,10 +223,10 @@ export const DailyEmail: React.FC<DailyEmailProps> = ({
           <Text style={styles.sectionTitle}>📍 Top Locations</Text>
           <table style={styles.locationTable}>
             <tbody>
-              {limitedCountries.map((country, index) => (
+              {limitedCities.map((country, index) => (
                 <tr 
                   key={`${country.x}-${index}`} 
-                  style={index < limitedCountries.length - 1 ? styles.locationRow : {}}
+                  style={index < limitedCities.length - 1 ? styles.locationRow : {}}
                 >
                   <td style={styles.locationName}>{country.x}</td>
                   <td style={styles.locationValue}>
