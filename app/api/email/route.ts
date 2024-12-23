@@ -4,32 +4,51 @@ import { fetchUmamiData } from '@/lib/services/umami';
 import { sendAnalyticsEmail } from '@/lib/services/email';
 
 export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
     try {
-        // Check if this is a cron job request from Vercel
+        console.log('Request headers:', Object.fromEntries(request.headers));
+
         const isCronJob = request.headers.get('user-agent')?.includes('vercel-cron');
+        console.log('Is cron job:', isCronJob);
 
         const now = new Date();
         let startOfDay: Date;
         let endOfDay: Date;
 
         if (isCronJob) {
-            // For cron jobs, get previous day's data
             const yesterday = new Date(now);
-            yesterday.setDate(yesterday.getDate() - 1);
-            startOfDay = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
-            endOfDay = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 23, 59, 59);
+            yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+            startOfDay = new Date(Date.UTC(
+                yesterday.getUTCFullYear(),
+                yesterday.getUTCMonth(),
+                yesterday.getUTCDate()
+            ));
+            endOfDay = new Date(Date.UTC(
+                yesterday.getUTCFullYear(),
+                yesterday.getUTCMonth(),
+                yesterday.getUTCDate(),
+                23, 59, 59
+            ));
         } else {
-            // For manual runs, get current day's data
-            startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            startOfDay = new Date(Date.UTC(
+                now.getUTCFullYear(),
+                now.getUTCMonth(),
+                now.getUTCDate()
+            ));
             endOfDay = now;
         }
 
-        // Fetch analytics data
-        const analyticsData = await fetchUmamiData(startOfDay, endOfDay);
+        console.log('Date range:', {
+            startOfDay: startOfDay.toISOString(),
+            endOfDay: endOfDay.toISOString()
+        });
 
-        // Send email with analytics data
-        await sendAnalyticsEmail(analyticsData, startOfDay);
+        const analyticsData = await fetchUmamiData(startOfDay, endOfDay);
+        console.log('Analytics data fetched successfully');
+
+        const emailResult = await sendAnalyticsEmail(analyticsData, startOfDay);
+        console.log('Email send result:', emailResult);
 
         return NextResponse.json({
             success: true,
@@ -40,11 +59,16 @@ export async function GET(request: Request) {
             }
         });
     } catch (error) {
-        console.error('Error in analytics email route:', error);
-        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error('Detailed error:', {
+            message: error instanceof Error ? error.message : String(error),
+            stack: error instanceof Error ? error.stack : undefined,
+            response: error instanceof Response ? await error.text() : undefined
+        });
+
         return NextResponse.json({
             success: false,
-            error: errorMessage,
+            error: error instanceof Error ? error.message : String(error),
+            details: error instanceof Response ? await error.text() : undefined
         }, { status: 500 });
     }
 }

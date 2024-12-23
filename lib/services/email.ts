@@ -1,5 +1,5 @@
 // lib/services/email.ts
-import { Resend } from 'resend';
+import { Resend, CreateEmailResponse } from 'resend';
 import { DailyEmail } from '@/lib/templates/daily';
 import { config } from '@/lib/config/env';
 import { AnalyticsData } from '@/lib/types/umami';
@@ -10,20 +10,22 @@ const resend = new Resend(config.RESEND_API_KEY);
 export async function sendAnalyticsEmail(
     data: AnalyticsData,
     startDate: Date
-): Promise<void> {
-    // Validate required email configurations
+): Promise<CreateEmailResponse> {
     if (!config.FROM_EMAIL || !config.RECIPIENT_EMAIL) {
         throw new Error('Missing required email configuration');
     }
 
     try {
-        // Create the email component
+        console.log('Preparing email with data:', {
+            date: startDate.toISOString(),
+            stats: data.stats
+        });
+
         const emailComponent = DailyEmail({
             data,
             startDate
         }) as React.ReactElement;
 
-        // Send the email
         const result = await resend.emails.send({
             from: config.FROM_EMAIL,
             to: config.RECIPIENT_EMAIL,
@@ -31,11 +33,13 @@ export async function sendAnalyticsEmail(
             react: emailComponent,
         });
 
-        // Optional: Log the email send result
         console.log('Email sent successfully:', result);
+        return result;
     } catch (error) {
-        // Enhanced error handling
-        console.error('Failed to send analytics email:', error);
+        console.error('Failed to send analytics email:', {
+            error: error instanceof Error ? error.message : String(error),
+            stack: error instanceof Error ? error.stack : undefined
+        });
         throw error;
     }
 }
