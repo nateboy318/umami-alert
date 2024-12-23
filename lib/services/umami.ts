@@ -1,5 +1,5 @@
 import { config } from '@/lib/config/env';
-import { AnalyticsData, UmamiMetrics, UmamiStats } from '@/lib/types/umami';
+import { UmamiMetrics, UmamiStats } from '@/lib/types/umami';
 
 export async function fetchUmamiData() {
     const apiKey = config.UMAMI_API_KEY;
