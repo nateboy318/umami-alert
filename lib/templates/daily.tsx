@@ -184,7 +184,7 @@ export const DailyEmail: React.FC<DailyEmailProps> = ({
       <Head />
       <Body style={styles.body}>
         <Container style={styles.container}>
-          <Text style={styles.title}>Analytics Report</Text>
+          <Text style={styles.title}>🍥 Umami Alert</Text>
           <Text style={styles.date}>{startDate.toLocaleDateString()}</Text>
 
           <table style={styles.statsTable}>
