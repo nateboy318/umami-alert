@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UmamiAlert
 
-## Getting Started
+UmamiAlert is a Next.js application that automatically sends daily email reports containing your Umami Analytics data. It leverages Vercel's Cron Jobs and Resend for email delivery.
 
-First, run the development server:
+## Features
+
+- 📊 Daily analytics reports via email
+- 📈 Includes key metrics like pageviews, visitors, and bounce rates
+- 🌍 Shows top pages, referrers, browsers, devices, and cities
+- ⚡ Powered by Vercel Cron Jobs
+- 📧 Beautiful, responsive HTML emails using React Email
+
+## Prerequisites
+
+- A [Vercel](https://vercel.com) account
+- An [Umami Analytics](https://umami.is) account
+- A [Resend](https://resend.com) account for sending emails
+
+## Setup
+
+1. Clone this repository
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Copy the environment variables file:
+```bash
+cp .env.example .env
+```
+
+4. Configure your environment variables in `.env`:
+
+```env
+# Cron schedule for when to send the email (default: every day at midnight)
+CRON_SCHEDULE=0 0 * * *
+
+# Email configuration
+FROM_EMAIL=your-from-email@example.com
+RECIPIENT_EMAIL=your-recipient@example.com
+RESEND_API_KEY=re_xxxxxxxxxxxx
+
+# Umami Analytics configuration
+WEBSITE_ID=your-website-id
+UMAMI_API_KEY=your-umami-api-key
+UMAMI_API_URL=https://api.umami.is
+```
+
+## Environment Variables Explained
+
+- `CRON_SCHEDULE`: When to send the email (uses cron syntax)
+- `FROM_EMAIL`: The email address emails will be sent from (must be verified in Resend)
+- `RECIPIENT_EMAIL`: Where to send the analytics reports
+- `RESEND_API_KEY`: Your Resend API key
+- `WEBSITE_ID`: Your Umami website ID
+- `UMAMI_API_KEY`: Your Umami API key
+- `UMAMI_API_URL`: Your Umami API URL (default is api.umami.is)
+
+## Development
+
+To run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To preview the email template:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run email
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
+1. Deploy to Vercel:
+```bash
+vercel deploy
+```
 
-To learn more about Next.js, take a look at the following resources:
+2. Configure environment variables in your Vercel project settings
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. The Vercel Cron Job is automatically configured through the `vercel.json` file to run daily at midnight:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```json
+{
+    "crons": [
+        {
+            "path": "/api/email",
+            "schedule": "0 0 * * *"
+        }
+    ]
+}
+```
 
-## Deploy on Vercel
+## Testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+You can test the email endpoint by visiting `/api/email` in your browser or making a GET request to that endpoint.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
