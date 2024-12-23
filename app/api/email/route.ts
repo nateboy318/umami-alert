@@ -12,32 +12,32 @@ export async function GET(request: Request) {
         const isCronJob = request.headers.get('user-agent')?.includes('vercel-cron');
         console.log('Is cron job:', isCronJob);
 
+        // Create dates in EST timezone
+        const estOffset = -5; // EST offset from UTC (adjust for daylight savings if needed)
         const now = new Date();
+        now.setHours(now.getHours() + estOffset); // Convert to EST
+
         let startOfDay: Date;
         let endOfDay: Date;
 
         if (isCronJob) {
-            const yesterday = new Date(now);
-            yesterday.setUTCDate(yesterday.getUTCDate() - 1);
-            startOfDay = new Date(Date.UTC(
-                yesterday.getUTCFullYear(),
-                yesterday.getUTCMonth(),
-                yesterday.getUTCDate()
-            ));
-            endOfDay = new Date(Date.UTC(
-                yesterday.getUTCFullYear(),
-                yesterday.getUTCMonth(),
-                yesterday.getUTCDate(),
-                23, 59, 59
-            ));
+            // For cron job at midnight EST, get the previous day's data
+            startOfDay = new Date(now);
+            startOfDay.setDate(startOfDay.getDate() - 1);
+            startOfDay.setHours(0, 0, 0, 0);
+
+            endOfDay = new Date(startOfDay);
+            endOfDay.setHours(23, 59, 59, 999);
         } else {
-            startOfDay = new Date(Date.UTC(
-                now.getUTCFullYear(),
-                now.getUTCMonth(),
-                now.getUTCDate()
-            ));
+            // For manual testing, get current day's data
+            startOfDay = new Date(now);
+            startOfDay.setHours(0, 0, 0, 0);
             endOfDay = now;
         }
+
+        // Convert back to UTC for API calls
+        startOfDay.setHours(startOfDay.getHours() - estOffset);
+        endOfDay.setHours(endOfDay.getHours() - estOffset);
 
         console.log('Date range:', {
             startOfDay: startOfDay.toISOString(),
