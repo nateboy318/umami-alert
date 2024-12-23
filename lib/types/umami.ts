@@ -20,7 +20,7 @@ export interface AnalyticsData {
         visits: { value: number; prev: number };
         bounces: { value: number; prev: number };
         totaltime: { value: number; prev: number };
-        dueCount: number;
+        eventCount: number;
     };
     topPages: UmamiMetrics[];
     topReferrers: UmamiMetrics[];

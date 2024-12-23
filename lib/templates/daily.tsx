@@ -18,7 +18,7 @@ interface DailyEmailStats {
   visits: StatValue;
   bounces: StatValue;
   totaltime: StatValue;
-  dueCount: number;
+  eventCount: number;
 }
 
 interface DailyEmailData {
@@ -168,7 +168,7 @@ export const DailyEmail: React.FC<DailyEmailProps> = ({
   startDate, 
   mode = 'light' 
 }) => {
-  const styles = createStyles(mode);
+  const styles = createStyles(mode as 'dark' | 'light');
   const { stats, cities } = data;
   
   console.log('Email Template Data:', {
@@ -211,9 +211,9 @@ export const DailyEmail: React.FC<DailyEmailProps> = ({
                   </Text>
                 </td>
                 <td style={styles.statCell}>
-                  <Text style={styles.cardTitle}>Due Dates</Text>
+                  <Text style={styles.cardTitle}>Events</Text>
                   <Text style={styles.cardValue}>
-                    {stats.dueCount} 📅
+                    {stats.eventCount} 📊
                   </Text>
                 </td>
               </tr>

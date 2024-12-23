@@ -50,13 +50,13 @@ export async function fetchUmamiData() {
         const startOfYear = new Date(now.getFullYear(), 0, 1);
 
         // Fetch current period data
-        const [currentStats, pageviews, browsers, devices, cities, dueEvents] = await Promise.all([
+        const [currentStats, pageviews, browsers, devices, cities, events] = await Promise.all([
             fetchWithValidation<UmamiStats>(`${baseUrl}/stats?startAt=${past24Hours.getTime()}&endAt=${now.getTime()}`),
             fetchWithValidation<UmamiMetrics[]>(`${baseUrl}/metrics?type=url&startAt=${past24Hours.getTime()}&endAt=${now.getTime()}&limit=10`),
             fetchWithValidation<UmamiMetrics[]>(`${baseUrl}/metrics?type=browser&startAt=${past24Hours.getTime()}&endAt=${now.getTime()}&limit=5`),
             fetchWithValidation<UmamiMetrics[]>(`${baseUrl}/metrics?type=device&startAt=${past24Hours.getTime()}&endAt=${now.getTime()}&limit=5`),
             fetchWithValidation<UmamiMetrics[]>(`${baseUrl}/metrics?type=city&startAt=${past24Hours.getTime()}&endAt=${now.getTime()}&limit=5`),
-            fetchWithValidation<{ count: number }>(`${baseUrl}/events?startAt=${startOfYear.getTime()}&endAt=${now.getTime()}&query=due-date-added`)
+            fetchWithValidation<{ count: number }>(`${baseUrl}/events?startAt=${startOfYear.getTime()}&endAt=${now.getTime()}`)
         ]);
 
         // Fetch previous period data for comparison
@@ -86,7 +86,7 @@ export async function fetchUmamiData() {
                     value: currentStats.totaltime.value,
                     prev: previousStats.totaltime.value
                 },
-                dueCount: dueEvents.count
+                eventCount: events.count
             },
             topPages: pageviews,
             topReferrers: [],
