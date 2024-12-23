@@ -56,7 +56,7 @@ export async function fetchUmamiData() {
             fetchWithValidation<UmamiMetrics[]>(`${baseUrl}/metrics?type=browser&startAt=${past24Hours.getTime()}&endAt=${now.getTime()}&limit=5`),
             fetchWithValidation<UmamiMetrics[]>(`${baseUrl}/metrics?type=device&startAt=${past24Hours.getTime()}&endAt=${now.getTime()}&limit=5`),
             fetchWithValidation<UmamiMetrics[]>(`${baseUrl}/metrics?type=city&startAt=${past24Hours.getTime()}&endAt=${now.getTime()}&limit=5`),
-            fetchWithValidation<{ count: number }>(`${baseUrl}/events?startAt=${startOfYear.getTime()}&endAt=${now.getTime()}`)
+            fetchWithValidation<{ count: number }>(`${baseUrl}/events?startAt=${past24Hours.getTime()}&endAt=${now.getTime()}`)
         ]);
 
         // Fetch previous period data for comparison

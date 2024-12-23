@@ -68,7 +68,7 @@ const createStyles = (mode: 'dark' | 'light'): EmailStyles => {
       padding: '20px 0'
     },
     title: {
-      fontSize: '24px',
+      fontSize: '32px',
       fontWeight: 'bold',
       textAlign: 'center',
       margin: '0',
@@ -76,7 +76,7 @@ const createStyles = (mode: 'dark' | 'light'): EmailStyles => {
       color: isDark ? '#ffffff' : '#000000'
     },
     date: {
-      fontSize: '14px',
+      fontSize: '18px',
       textAlign: 'center',
       color: isDark ? '#94a3b8' : '#666666',
       margin: '0',
