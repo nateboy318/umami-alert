@@ -1,7 +1,7 @@
 import { config } from '@/lib/config/env';
 import { AnalyticsData, UmamiMetrics, UmamiStats } from '@/lib/types/umami';
 
-export async function fetchUmamiData(): Promise<AnalyticsData> {
+export async function fetchUmamiData(startDate: Date, endDate: Date): Promise<AnalyticsData> {
     const apiKey = config.UMAMI_API_KEY;
     const websiteId = config.WEBSITE_ID;
 
