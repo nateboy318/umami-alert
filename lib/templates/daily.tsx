@@ -65,7 +65,8 @@ const createStyles = (mode: 'dark' | 'light'): EmailStyles => {
       maxWidth: '600px',
       margin: '0 auto',
       backgroundColor: isDark ? '#1e293b' : '#f4f4f4',
-      padding: '20px 0'
+      padding: '20px 0',
+      borderRadius: '8px'
     },
     title: {
       fontSize: '32px',

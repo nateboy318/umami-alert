@@ -1,10 +1,20 @@
+"use client";
+
 import React from "react";
+import { cn } from "@/lib/utils";
+import GridPattern from "@/components/ui/grid-pattern";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="max-w-[600px] mx-auto bg-[#f4f4f4] rounded-lg p-8">
-        <h1 className="text-4xl text-black font-bold text-center mb-2">🍥 Umami Alert</h1>
+    <div className="relative min-h-screen bg-white overflow-hidden font-[family-name:var(--font-geist-sans)]">
+      <GridPattern
+        className={cn(
+          "[mask-image:radial-gradient(900px_circle_at_center,white,transparent)]",
+          "absolute inset-0 w-full h-full"
+        )}
+      />
+      <main className="relative max-w-[600px] mx-auto bg-[#f4f4f4] rounded-lg p-8 mt-20">
+        <h1 className="text-4xl text-black font-bold text-center mb-2">🍥 Umami Alerts</h1>
         <p className="text-sm text-center text-[#666666] mb-8">
           Daily Analytics Email Reports
         </p>
