@@ -44,7 +44,7 @@ export async function fetchUmamiData(startDate: Date, endDate: Date): Promise<An
         }).then(res => res.json()) as Promise<UmamiMetrics[]>,
 
         // Get countries
-        fetch(`${baseUrl}/metrics?type=country&startAt=${startDate.getTime()}&endAt=${endDate.getTime()}&limit=5`, {
+        fetch(`${baseUrl}/metrics?type=city&startAt=${startDate.getTime()}&endAt=${endOfDay.getTime()}&limit=5`, {
             headers
         }).then(res => res.json()) as Promise<UmamiMetrics[]>,
     ]);

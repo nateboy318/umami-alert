@@ -26,5 +26,5 @@ export interface AnalyticsData {
     topReferrers: UmamiMetrics[];
     browsers: UmamiMetrics[];
     devices: UmamiMetrics[];
-    countries: UmamiMetrics[];
+    cities: UmamiMetrics[];  // Changed from countries to cities
 }
